@@ -4,7 +4,7 @@ export const getDashboardPage = (req, res) => {
     const userName = userData ? userData.username : null
 
     if (userName) {
-      res.redirect('/MyApp/home')
+      res.send('Dashboard Page!!')
       return
     }
 

@@ -22,3 +22,8 @@ export const getLoginPage = (req, res) => {
     res.json({ Login: 'invalid' })
   }
 }
+
+export const logOut = (req, res) => {
+  res.clearCookie('userData')
+  res.redirect('/MyApp/home')
+}

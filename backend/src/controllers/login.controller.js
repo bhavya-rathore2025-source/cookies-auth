@@ -1,26 +1,29 @@
 import { json } from 'express'
+import { poolPromise } from '../db/sql.js'
 
-const users = [
-  { username: 'admin', password: 'admin123', role: 'admin' },
-  { username: 'john', password: 'john123', role: 'user' },
-  { username: 'aadi', password: 'aadi123', role: 'user' },
-]
-
-export const getLoginPage = (req, res) => {
+export const getLoginPage = async (req, res) => {
   const { username, password } = req.body
+
+  const pool = await poolPromise.connect()
+  const result = await pool.request().query(`SELECT * FROM users`)
+  const users = result.recordset // 👈 THIS is the array
+
   const user = users.find((u) => u.username === username && u.password === password)
+
   if (user) {
     const noPass = { username: user.username, role: user.role }
+
     res.cookie('userData', JSON.stringify(noPass), {
-      maxAge: 3 * 24 * 60 * 1000,
+      maxAge: 3 * 24 * 60 * 60 * 1000,
       httpOnly: true,
       secure: false,
       sameSite: 'strict',
     })
-    res.json({ Login: 'Done' })
-  } else {
-    res.json({ Login: 'invalid' })
+
+    return res.json({ Login: 'Done' })
   }
+
+  res.json({ Login: 'invalid' })
 }
 
 export const logOut = (req, res) => {

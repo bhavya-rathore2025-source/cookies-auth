@@ -1,5 +1,14 @@
 import sql from 'mssql'
+/*
+USE credentials;
+CREATE LOGIN node_user 
+WITH PASSWORD = 'StrongPass@123';
 
+
+
+CREATE USER node_user FOR LOGIN node_user;
+ALTER ROLE db_owner ADD MEMBER node_user;
+*/
 const config = {
   user: 'node_user',
   password: 'StrongPass@123',
@@ -17,7 +26,6 @@ poolPromise
   .connect()
   .then(async (pool) => {
     console.log('✅ Connected to SQL Server')
-
     // Create users table if not exists
     await pool.request().query(`
       IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'users')
@@ -28,7 +36,6 @@ poolPromise
         role VARCHAR(50) NOT NULL
       )
     `)
-
     console.log('✅ Database and table ready')
   })
   .catch((err) => {

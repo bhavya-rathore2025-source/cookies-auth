@@ -28,5 +28,4 @@ export const getLoginPage = async (req, res) => {
 
 export const logOut = (req, res) => {
   res.clearCookie('userData')
-  res.redirect('/MyApp/home')
 }

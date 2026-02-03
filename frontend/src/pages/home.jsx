@@ -1,16 +1,30 @@
 import '../styles/home.css'
 import { useNavigate } from 'react-router'
+import axios from 'axios'
 
-export function HomePage() {
+export function HomePage({ loggedIn, setLoggedIn }) {
   const navigate = useNavigate()
-
+  const handleLogout = async () => {
+    try {
+      await axios.get('http://localhost:5000/MyApp/logout')
+      setLoggedIn(false)
+    } catch (err) {
+      console.log(err)
+    }
+  }
   return (
     <div className='home-container'>
       {/* Top Bar */}
       <div className='top-bar'>
-        <button className='login-btn' onClick={() => navigate('/login')}>
-          Login
-        </button>
+        {loggedIn ? (
+          <button className='login-btn' onClick={handleLogout}>
+            Log Out
+          </button>
+        ) : (
+          <button className='login-btn' onClick={() => navigate('/login')}>
+            Log In
+          </button>
+        )}
       </div>
 
       {/* Main Content */}

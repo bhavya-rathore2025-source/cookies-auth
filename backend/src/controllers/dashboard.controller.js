@@ -4,12 +4,12 @@ export const getDashboardPage = (req, res) => {
     const userName = userData ? userData.username : null
 
     if (userName) {
-      res.send('Dashboard Page!!')
+      res.json({ logged: 'Yes' })
       return
     }
 
-    res.send('invalid cookie')
+    res.json({ logged: 'No' })
   } catch (err) {
-    res.send('invalid cookie')
+    res.json({ logged: 'No' })
   }
 }

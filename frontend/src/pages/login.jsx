@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import axios from 'axios'
 
-export function LoginPage() {
+export function LoginPage({ loggedIn, setLoggedIn }) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -18,11 +18,13 @@ export function LoginPage() {
       const res = await axios.post('http://localhost:5000/MyApp/login', { username, password }, { withCredentials: true })
 
       if (res?.data?.Login === 'Done') {
+        setLoggedIn(true)
         navigate('/dashboard')
       } else {
         setError(res?.data?.message || 'Invalid username or password')
       }
     } catch (err) {
+      console.log(err)
       setError('Something went wrong. Try again.')
     }
   }

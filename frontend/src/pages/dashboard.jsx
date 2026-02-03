@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router'
 import axios from 'axios'
 import '../styles/dashboard.css'
 
-export function Dashboard({ loggedIn }) {
+export function Dashboard() {
   const [user, setUser] = useState(null)
   const navigate = useNavigate()
 
@@ -22,6 +22,9 @@ export function Dashboard({ loggedIn }) {
     <div className='dashboard-container'>
       <div className='dashboard-header'>
         <h1>Dashboard</h1>
+        <button className='home-btn' type='submit' onClick={() => navigate('/')}>
+          Home Page
+        </button>
       </div>
 
       <div className='card'>
@@ -36,6 +39,7 @@ export function Dashboard({ loggedIn }) {
 
       <div className='card'>
         <h3>What this dashboard proves</h3>
+
         <ul>
           <li>User is authenticated</li>
           <li>Cookie is sent automatically by browser</li>

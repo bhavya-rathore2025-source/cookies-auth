@@ -39,6 +39,21 @@
   font-size: 13px;
   color: #cfe3ff;
 }
+.home-btn {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  z-index: 1000;
+}
+
 .field span {
   margin-bottom: 8px;
   color: var(--muted);

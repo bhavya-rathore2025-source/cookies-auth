@@ -41,3 +41,18 @@
   color: #9ca3af;
   padding: 40px;
 }
+.home-btn {
+  margin-left: 1400px;
+  top: 16px;
+  right: 16px;
+  width: fit-content;
+  display: inline-flex;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  z-index: 1000;
+}

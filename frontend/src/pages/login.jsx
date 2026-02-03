@@ -20,7 +20,6 @@ export function LoginPage({ loggedIn, setLoggedIn }) {
       if (res?.data?.Login === 'Done') {
         await setLoggedIn(true)
         console.log('login page', loggedIn)
-
         navigate('/dashboard')
       } else {
         setError(res?.data?.message || 'Invalid username or password')
@@ -33,6 +32,9 @@ export function LoginPage({ loggedIn, setLoggedIn }) {
 
   return (
     <div className='login-page'>
+      <button className='home-btn' type='submit' onClick={() => navigate('/')}>
+        Home Page
+      </button>
       <div className='login-card'>
         <h1>Welcome back</h1>
         <p className='desc'>Sign in to continue</p>

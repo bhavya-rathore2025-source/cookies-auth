@@ -1,21 +1,31 @@
 import '../styles/home.css'
 import { useNavigate } from 'react-router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 
 export function HomePage({ loggedIn, setLoggedIn }) {
+  const navigate = useNavigate()
   const handleLogout = async () => {
     console.log(1)
-    await axios.get('http://localhost:5000/MyApp/logout')
-    console.log(2)
+    await axios.get('http://localhost:5000/MyApp/logout', { withCredentials: true })
 
+    console.log(2)
     setLoggedIn(false)
     console.log(setLoggedIn)
 
     // navigate to root and replace history so Back doesn't return to a cached auth page
   }
+  const checkStatus = async () => {
+    await axios.get('http://localhost:5000/MyApp/dashboard', { withCredentials: true }).then((res) => {
+      if (res.data.logged == 'Yes') setLoggedIn(true)
+      else setLoggedIn(false)
+    })
+  }
+  useEffect(() => {
+    checkStatus()
+  }, [])
 
-  const navigate = useNavigate()
+  console.log(loggedIn)
 
   return (
     <div className='home-container'>

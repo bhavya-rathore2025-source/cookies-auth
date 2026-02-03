@@ -11,7 +11,7 @@ function App() {
       <Route path='/' element={<HomePage loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
       <Route path='/login' element={<LoginPage loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
       <Route path='/register' element={<RegisterPage />} />
-      <Route path='/dashboard' element={<Dashboard />} />
+      <Route path='/dashboard' element={<Dashboard loggedIn={loggedIn} />} />
     </Routes>
   )
 }

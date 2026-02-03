@@ -18,7 +18,9 @@ export function LoginPage({ loggedIn, setLoggedIn }) {
       const res = await axios.post('http://localhost:5000/MyApp/login', { username, password }, { withCredentials: true })
 
       if (res?.data?.Login === 'Done') {
-        setLoggedIn(true)
+        await setLoggedIn(true)
+        console.log('login page', loggedIn)
+
         navigate('/dashboard')
       } else {
         setError(res?.data?.message || 'Invalid username or password')

@@ -17,7 +17,7 @@ export const getLoginPage = async (req, res) => {
       maxAge: 3 * 24 * 60 * 60 * 1000,
       httpOnly: true,
       secure: false,
-      sameSite: 'strict',
+      sameSite: 'lax',
     })
 
     return res.json({ Login: 'Done' })
@@ -27,5 +27,12 @@ export const getLoginPage = async (req, res) => {
 }
 
 export const logOut = (req, res) => {
-  res.clearCookie('userData')
+  console.log('Calles')
+
+  res.clearCookie('userData', {
+    httpOnly: true,
+    secure: false,
+    sameSite: 'lax',
+  })
+  res.json({ logout: 'done' })
 }

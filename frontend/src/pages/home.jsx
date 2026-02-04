@@ -17,12 +17,25 @@ export function HomePage({ loggedIn, setLoggedIn, admin, setAdmin }) {
     // navigate to root and replace history so Back doesn't return to a cached auth page
   }
   const checkStatus = async () => {
-    await axios.get('http://localhost:5000/MyApp/dashboard', { withCredentials: true }).then((res) => {
-      if (res.data.logged == 'Yes') setLoggedIn(true)
-      else setLoggedIn(false)
-      res.data.userRole === 'admin' ? setAdmin(true) : setAdmin(false)
-    })
+    try {
+      const res = await axios.get('http://localhost:5000/MyApp/dashboard', { withCredentials: true })
+
+      if (res.data.logged === 'Yes') {
+        setLoggedIn(true)
+        setAdmin(res.data.userRole === 'admin')
+      } else {
+        setLoggedIn(false)
+        setAdmin(false)
+      }
+    } catch (err) {
+      // 401 / network error / backend down
+      console.log(err)
+
+      setLoggedIn(false)
+      setAdmin(false)
+    }
   }
+
   useEffect(() => {
     checkStatus()
   }, [])

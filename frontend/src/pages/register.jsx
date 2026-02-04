@@ -23,7 +23,7 @@ export function RegisterPage() {
         setSuccess('Registration successful. You can login now.')
         setTimeout(() => navigate('/login'), 1500)
       } else {
-        setError(res.data.Register || 'Registration failed')
+        setSuccess('Username already exist')
       }
     } catch (err) {
       console.log(err)

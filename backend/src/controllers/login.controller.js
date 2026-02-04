@@ -1,6 +1,6 @@
 import { json } from 'express'
 import { poolPromise } from '../db/sql.js'
-
+import bcrypt from 'bcryptjs'
 export const getLoginPage = async (req, res) => {
   const { username, password } = req.body
 
@@ -8,9 +8,9 @@ export const getLoginPage = async (req, res) => {
   const result = await pool.request().query(`SELECT * FROM users`)
   const users = result.recordset // 👈 THIS is the array
 
-  const user = users.find((u) => u.username === username && u.password === password)
+  const user = users.find((u) => u.username === username)
 
-  if (user) {
+  if (user && (await bcrypt.compare(password, user.password))) {
     const noPass = { username: user.username, role: user.role }
 
     res.cookie('userData', JSON.stringify(noPass), {

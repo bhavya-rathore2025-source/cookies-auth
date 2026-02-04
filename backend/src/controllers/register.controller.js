@@ -1,9 +1,9 @@
 import { json } from 'express'
 import { poolPromise } from '../db/sql.js'
-
+import bcrypt from 'bcryptjs'
 export const getRegisterPage = async (req, res) => {
   const { username, password } = req.body
-
+  const hashedPass = await bcrypt.hash(password, 10)
   const pool = await poolPromise.connect()
 
   // check if username exists
@@ -14,7 +14,7 @@ export const getRegisterPage = async (req, res) => {
   }
 
   // insert new user
-  await pool.request().input('username', username).input('password', password).input('role', 'user').query(`
+  await pool.request().input('username', username).input('password', hashedPass).input('role', 'user').query(`
       INSERT INTO users (username, password, role)
       VALUES (@username, @password, @role)
     `)

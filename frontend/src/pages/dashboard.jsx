@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router'
 import axios from 'axios'
 import '../styles/dashboard.css'
 
-export function Dashboard() {
+export function Dashboard({ setAdmin }) {
   const [user, setUser] = useState(null)
   const navigate = useNavigate()
 
@@ -15,6 +15,7 @@ export function Dashboard() {
 
   if (!user) return <p className='loading'>Loading...</p>
   if (user.logged === 'No') navigate('/login')
+  if (user.role === 'admin') setAdmin(true)
 
   console.log(user)
 

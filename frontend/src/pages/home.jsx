@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
-export function HomePage({ loggedIn, setLoggedIn }) {
+export function HomePage({ loggedIn, setLoggedIn, admin, setAdmin }) {
   const navigate = useNavigate()
   const handleLogout = async () => {
     console.log(1)
@@ -11,6 +11,7 @@ export function HomePage({ loggedIn, setLoggedIn }) {
 
     console.log(2)
     setLoggedIn(false)
+    setAdmin(false)
     console.log(setLoggedIn)
 
     // navigate to root and replace history so Back doesn't return to a cached auth page
@@ -19,6 +20,7 @@ export function HomePage({ loggedIn, setLoggedIn }) {
     await axios.get('http://localhost:5000/MyApp/dashboard', { withCredentials: true }).then((res) => {
       if (res.data.logged == 'Yes') setLoggedIn(true)
       else setLoggedIn(false)
+      res.data.userRole === 'admin' ? setAdmin(true) : setAdmin(false)
     })
   }
   useEffect(() => {
@@ -31,6 +33,12 @@ export function HomePage({ loggedIn, setLoggedIn }) {
     <div className='home-container'>
       {/* Top Bar */}
       <div className='top-bar'>
+        {admin && (
+          <button className='login-btn' onClick={() => navigate('/admin')}>
+            Admin Only
+          </button>
+        )}
+
         <button
           className='login-btn'
           onClick={() => {

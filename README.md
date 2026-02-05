@@ -7,7 +7,7 @@ It focuses on backend correctness, authentication flow, and role-based access ra
 
 User registration and login
 
-Authentication using HTTP-only cookies
+Authentication using HTTP-only cookies and jwt
 
 Protected dashboard route
 

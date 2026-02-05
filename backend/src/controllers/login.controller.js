@@ -1,6 +1,7 @@
 import { json } from 'express'
 import { poolPromise } from '../db/sql.js'
 import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 export const getLoginPage = async (req, res) => {
   const { username, password } = req.body
 
@@ -12,8 +13,19 @@ export const getLoginPage = async (req, res) => {
 
   if (user && (await bcrypt.compare(password, user.password))) {
     const noPass = { username: user.username, role: user.role }
+    const token = jwt.sign(
+      {
+        username: noPass.username,
+        role: noPass.role,
+      },
+      'anykey',
+      {
+        expiresIn: '3d',
+      },
+    )
+    console.log(token)
 
-    res.cookie('userData', JSON.stringify(noPass), {
+    res.cookie('token', token, {
       maxAge: 3 * 24 * 60 * 60 * 1000,
       httpOnly: true,
       secure: false,
@@ -29,7 +41,7 @@ export const getLoginPage = async (req, res) => {
 export const logOut = (req, res) => {
   console.log('Calles')
 
-  res.clearCookie('userData', {
+  res.clearCookie('token', {
     httpOnly: true,
     secure: false,
     sameSite: 'lax',
